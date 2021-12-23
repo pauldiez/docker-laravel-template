@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/nginx/project.com.conf:/etc/nginx/conf.d/default.conf
+      #- ./config/nginx/project2.com.conf:/etc/nginx/conf.d/project2.com.conf
+      - ./src:/var/www
+    depends_on:
+      - php
+      - mysql
+    #docker exec -it nginx ash
+
+  mysql:
+    image: mysql:8.0.23
+    container_name: mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+     - "3306:3306"
+    environment:
+      MYSQL_DATABASE: project
+      #MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: dev
+
+    volumes:
+      - "./config/mysql/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf"
+      - "./data/db/mysql:/var/lib/mysql"
+      - "./data/db/dumps:/data/db/dumps"
+      - "./data/logs/mysql:/var/log/mysql"    
+
+  php:
+    build:
+      context: ./config/php
+      dockerfile: Dockerfile
+    container_name: php
+    volumes:
+      - ./src:/var/www/
+    ports:
+      - "9000:9000"
+    env_file:
+      - ./config/php/.env
+    #docker exec -it php /bin/bash
+
+  memcached:
+    container_name: memcached
+    image: memcached
+    ports:
+      - "11211:11211"  
+

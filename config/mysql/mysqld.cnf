@@ -1,0 +1,38 @@
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+
+#
+# The MySQL  Server configuration file.
+#
+# For explanations see
+# http://dev.mysql.com/doc/mysql/en/server-system-variables.html
+
+[mysqld]
+pid-file                = /var/run/mysqld/mysqld.pid
+socket                  = /var/run/mysqld/mysqld.sock
+datadir                 = /var/lib/mysql
+log-error               = /var/log/mysql/error.log
+max_allowed_packet      = 4096M
+innodb_use_native_aio   = 0
+innodb_buffer_pool_size = 50M
+
+### sql-mode ####
+# Default sql-mode
+#sql-mode       = "ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+
+# Custom sql-mode
+# removing sql-mode 'ONLY_FULL_GROUP_BY' option
+sql-mode        = "STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+
+
+# By default we only accept connections from localhost
+#bind-address   = 127.0.0.1
+
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+
+
