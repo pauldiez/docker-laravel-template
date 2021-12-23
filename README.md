@@ -96,6 +96,16 @@ php artisan make:model BlogPost
 # Finally, edit the model file accordingly (see instruction: https://laravel.com/docs/8.x/eloquent#eloquent-model-conventions)
 ```
 
+###Running Test Cases
+```bash
+#First, you create a test case 
+php artisan make:test BlogPostTest --unit
+
+#Second, then you run the test 
+php artisan test
+
+# See the test case documentation here for more details: https://laravel.com/docs/8.x/testing
+```
 
 
 
