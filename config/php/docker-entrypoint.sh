@@ -24,12 +24,18 @@ done
 
 # Toggle xdebug
 if [ "true" == "$XDEBUG" ] && [ ! -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini ]; then
-  # Enable xdebug estension and set up the docker-php-ext-xdebug.ini file with the required xdebug settings
-  docker-php-ext-enable xdebug && \
-  echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
-  echo "xdebug.remote_autostart=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
-  echo "xdebug.remote_connect_back=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
-  echo "xdebug.remote_host=$REMOTE_HOST" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini;
+      # Reference link for config settings https://xdebug.org/docs/all_settings
+      # Reference link for up Xdebug with PhpStorm https://www.jetbrains.com/help/phpstorm/debugging-with-phpstorm-ultimate-guide.html
+      docker-php-ext-enable xdebug && \
+      echo "xdebug.client_host=$REMOTE_HOST" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini;  \
+      echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+      echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+      echo "xdebug.xdebug.start_upon_error=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+      echo "xdebug.discover_client_host.=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+      echo "xdebug.client_port=9001" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+      echo "xdebug.log=/var/log/xdebug.log" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+      echo "xdebug.remote_handler=dbgp" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini;  \
+
 fi
 
 exec "$@"
